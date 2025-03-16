@@ -1,0 +1,7 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=25a7cb35_002D5dfc_002D4f80_002D8aa9_002D80ff87534886/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ShouldReturnOneMovieAfterAddingMovieToEmptyRepository" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::68486DC4-5E79-4429-A36B-6312F263E12F::net9.0::UnitTests.GenericRepositoryTest.ShouldReturnOneMovieAfterAddingMovieToEmptyRepository&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::68486DC4-5E79-4429-A36B-6312F263E12F::net9.0::UnitTests.GenericRepositoryTest.ShouldRepositoryBeEmptyAfterDeleteMovie&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
