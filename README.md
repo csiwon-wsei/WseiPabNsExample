@@ -1,4 +1,6 @@
-# Programowanie aplikacji backendowych
+![img.png](img.png)
+
+# Programowanie aplikacji backendowych - edycja 2025
 Repozytorium zawiera przykładowy projekt tworzony w trakcie zajęć konwersatoryjnych
 
 ## Wykład 1
