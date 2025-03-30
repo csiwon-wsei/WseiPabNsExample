@@ -19,16 +19,23 @@ public class MovieService
     {
         return _movies.GetAll();
     }
+    
+    public async Task<IQueryable<Movie>> GetMoviesAsync()
+    {
+        await Task.Delay(1);
+        return _movies.GetAll();
+    }
 
     public Movie? GetById(Guid id)
     {
         return _movies.GetById(id);
     }
 
-    public Movie AddReviewMovie(Review review)
+    public Review AddReviewMovie(Review review)
     {
         var movie = _movies.GetById(review.MovieId);
         var user = _users.GetById(review.UserId);
+        review.Id = Guid.NewGuid(); 
         if (movie == null)
         {
             throw new MovieNotFoundException($"Movie not found with id: {review.MovieId}!");
@@ -38,6 +45,7 @@ public class MovieService
             throw new UserNotFoundException($"User not found with id: {review.UserId}!");
         }
         movie.Reviews.Add(review);
-        return _movies.Update(movie);
+        _movies.Update(movie);
+        return review;
     }
 }

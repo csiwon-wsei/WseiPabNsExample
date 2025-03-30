@@ -16,14 +16,14 @@ public class InitData
         Movie m1 = new Movie()
         {
             Title = "Tenet",
-            Descritpion = "Sci-fi movie",
+            Description = "Sci-fi movie",
         };
         m1.Id = Guid.Parse("4A30CD68-5AC9-4782-B537-D8A0DF77E809");
         m1.Reviews = new List<Review>()
         {
             new()
             {
-                Id = m1.Id,
+                Id = Guid.NewGuid(),
                 UserId = u1.Id,
                 MovieId = m1.Id,
                 Title = "Test 1",
@@ -32,7 +32,7 @@ public class InitData
             },
             new()
             {
-                Id = m1.Id,
+                Id = Guid.NewGuid(),
                 UserId = u2.Id,
                 MovieId = m1.Id,
                 Title = "Test 2",

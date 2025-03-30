@@ -16,12 +16,12 @@ public class GenericRepositoryTest
         repository.Add(new Movie()
         {
             Title = "Test",
-            Descritpion = "Test description",
+            Description = "Test description",
         });
         
         // Assert
         Assert.Equal(1, repository.GetAll().Count());
-        Assert.Contains(repository.GetAll(), e => e.Title == "Test" && e.Descritpion == "Test description");
+        Assert.Contains(repository.GetAll(), e => e.Title == "Test" && e.Description == "Test description");
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class GenericRepositoryTest
         var movie = new Movie()
         {
             Title = "Test",
-            Descritpion = "Test description",
+            Description = "Test description",
         };
         movie = repository.Add(movie);
         
