@@ -1,7 +1,6 @@
 using System.Net.Mime;
 using ApplicationCore.Application.Services;
 using ApplicationCore.Domain.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Dto;
 using WebApi.Filters;
@@ -55,7 +54,7 @@ namespace WebApi.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [MovieExceptionFilter]  // atrybut przechwyci wyjątek i nie dotzre do gloalnego handler'a 
+        [MovieExceptionFilter]  // atrybut przechwyci wyjątek i nie dotrze do gloalnego handler'a 
         public IActionResult AddReview([FromRoute] Guid movieId, [FromBody] ReviewDto dto)
         {
             // użytkownik w późniejszej wersjkji zostanie pobrany z żądania
