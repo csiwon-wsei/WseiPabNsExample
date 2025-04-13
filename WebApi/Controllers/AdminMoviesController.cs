@@ -64,7 +64,7 @@ public class AdminMoviesController(IGenericRepository<Movie> movieRepo, IGeneric
         var deleteById = movieRepo.DeleteById(id);
         return deleteById ? NoContent() : NotFound();
     }
-
+    //TODO fix error!
     [HttpPut("{id:guid}")]
     public IActionResult PutMovie(Guid id, Movie movie)
     {
