@@ -8,11 +8,16 @@ public class InitData
 {
     public static void Init(IGenericRepository<Movie> moviesRepo, IGenericRepository<User> usersRepo)
     {
+        if (moviesRepo.GetById(Guid.Parse("4A30CD68-5AC9-4782-B537-D8A0DF77E809")) != null)
+        {
+            return;
+        }
+        
         var u1 = new User() { Id = Guid.Parse("6049fb69-f573-4088-a1c5-4e6189f2f135"), Username = "user1" };
         var u2 = new User() { Id = Guid.Parse("D63213CF-9E7B-470F-A7F8-CE996DB31D06"), Username = "user2" };
         usersRepo.Add(u1);
         usersRepo.Add(u2);
-
+    
         Movie m1 = new Movie()
         {
             Title = "Tenet",

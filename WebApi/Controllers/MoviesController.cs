@@ -9,21 +9,15 @@ namespace WebApi.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class MoviesController : ControllerBase
+    public class MoviesController(IMovieService service) : ControllerBase
     {
-        private readonly MovieService _service;
-
-        public MoviesController(MovieService service)
-        {
-            _service = service;
-        }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Produces("application/json")]
         public IEnumerable<Movie> GetAllMovies()
         {
-            return _service.GetMovies();
+            return service.GetMovies();
         }
 
         [HttpGet("{movieId:guid}/reviews/{reviewId:guid}")]
@@ -32,7 +26,7 @@ namespace WebApi.Controllers
         [Produces(MediaTypeNames.Application.Json, MediaTypeNames.Application.Xml)]
         public ActionResult<Review> GetReviewById(Guid movieId, Guid reviewId)
         {
-            var review = _service.GetById(movieId)?.Reviews.FirstOrDefault(r => r.Id == reviewId);
+            var review = service.GetById(movieId)?.Reviews.FirstOrDefault(r => r.Id == reviewId);
             return review == null ? NotFound() : review;
         }
         
@@ -41,7 +35,7 @@ namespace WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetAllReviews(Guid movieId)
         {
-            var reviews = _service.GetById(movieId)?.Reviews;
+            var reviews = service.GetById(movieId)?.Reviews;
             if (reviews == null)
             {
                 return NotFound();
@@ -54,13 +48,13 @@ namespace WebApi.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [MovieExceptionFilter]  // atrybut przechwyci wyjątek i nie dotrze do gloalnego handler'a 
+        [MovieExceptionFilter]  // atrybut przechwyci wyjątek, który nie dotrze do gloalnego handler'a 
         public IActionResult AddReview([FromRoute] Guid movieId, [FromBody] ReviewDto dto)
         {
             // użytkownik w późniejszej wersjkji zostanie pobrany z żądania
             var userId = Guid.Parse("D63213CF-9E7B-470F-A7F8-CE996DB31D06");
             Review review = MovieMapper.ReviewTo(dto, movieId: movieId, userId: userId);
-            review = _service.AddReviewMovie(review);
+            review = service.AddReviewMovie(review);
             return CreatedAtAction(nameof(GetReviewById), new {movieId = movieId, reviewId = review.Id}, review);
         }
     }

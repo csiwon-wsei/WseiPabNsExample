@@ -4,37 +4,29 @@ using ApplicationCore.Domain.Models;
 
 namespace ApplicationCore.Application.Services;
 
-public class MovieService
+public class MovieService(IGenericRepository<User> users, IGenericRepository<Movie> movies, IGenericRepository<Review> reviews): IMovieService
 {
-    private IGenericRepository<Movie> _movies;
-    private IGenericRepository<User> _users;
-
-    public MovieService(IGenericRepository<User> users, IGenericRepository<Movie> movies)
-    {
-        _users = users;
-        _movies = movies;
-    }
 
     public IEnumerable<Movie> GetMovies()
     {
-        return _movies.GetAll();
+        return movies.GetAll();
     }
     
     public async Task<IQueryable<Movie>> GetMoviesAsync()
     {
         await Task.Delay(1);
-        return _movies.GetAll();
+        return movies.GetAll();
     }
 
     public Movie? GetById(Guid id)
     {
-        return _movies.GetById(id);
+        return movies.GetById(id);
     }
 
     public Review AddReviewMovie(Review review)
     {
-        var movie = _movies.GetById(review.MovieId);
-        var user = _users.GetById(review.UserId);
+        var movie = movies.GetById(review.MovieId);
+        var user = users.GetById(review.UserId);
         review.Id = Guid.NewGuid(); 
         if (movie == null)
         {
@@ -44,8 +36,10 @@ public class MovieService
         {
             throw new UserNotFoundException($"User not found with id: {review.UserId}!");
         }
+
+        reviews.Add(review);
         movie.Reviews.Add(review);
-        _movies.Update(movie);
+        movies.Update(movie);
         return review;
     }
 }

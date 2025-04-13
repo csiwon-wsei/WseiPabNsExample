@@ -9,12 +9,12 @@ using WebApi.Dto;
 namespace WebApi.Controllers;
 [ApiController]
 [Route("/api/v1/admin/movies")]
-public class AdminMoviesController(IGenericRepository<Movie> repository): ControllerBase
+public class AdminMoviesController(IGenericRepository<Movie> movieRepo, IGenericRepository<Review> reviewRepo): ControllerBase
 {
     [HttpGet]
     public async IAsyncEnumerable<Movie> GetAll()
     {
-        var movies = repository.GetAll();
+        var movies = movieRepo.GetAll();
         foreach (var movie in movies)
         {
             yield return  movie;
@@ -29,19 +29,19 @@ public class AdminMoviesController(IGenericRepository<Movie> repository): Contro
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public IActionResult PatchMovie(Guid id, JsonPatchDocument<Movie> doc)
     {
-        var movie = repository.GetById(id);
+        var movie = movieRepo.GetById(id);
         if (movie == null)
         {
             return NotFound();
         }
         doc.ApplyTo(movie, ModelState);
-        repository.Update(movie);
+        movieRepo.Update(movie);
         return Ok(movie);
     }
     [HttpGet("{id:guid}")]
     public IActionResult GetMovie(Guid id)
     {
-        return Ok(repository.GetById(id));
+        return Ok(movieRepo.GetById(id));
     }
 
     [HttpPost]
@@ -52,7 +52,7 @@ public class AdminMoviesController(IGenericRepository<Movie> repository): Contro
             Title = dto.Title,
             Description = dto.Description
         };
-        repository.Add(movie);
+        movieRepo.Add(movie);
         return CreatedAtAction(nameof(GetMovie), new { id = movie.Id }, movie);
     }
     
@@ -61,14 +61,14 @@ public class AdminMoviesController(IGenericRepository<Movie> repository): Contro
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public IActionResult DeleteMovie(Guid id)
     {
-        var deleteById = repository.DeleteById(id);
+        var deleteById = movieRepo.DeleteById(id);
         return deleteById ? NoContent() : NotFound();
     }
 
     [HttpPut("{id:guid}")]
     public IActionResult PutMovie(Guid id, Movie movie)
     {
-        var updatedMovie = repository.GetById(id);
+        var updatedMovie = movieRepo.GetById(id);
         if (updatedMovie == null)
         {
             return NotFound();
@@ -77,7 +77,7 @@ public class AdminMoviesController(IGenericRepository<Movie> repository): Contro
         {
             return BadRequest();
         }
-        repository.Update(movie);
+        movieRepo.Update(movie);
         return Ok(movie);
     }
 }

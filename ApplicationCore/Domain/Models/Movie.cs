@@ -8,5 +8,5 @@ public sealed class Movie: BaseIdentity
     public string Description { get; set; }
     public List<Review> Reviews { get; set; } = new();
 
-    public DateTime CreatedAt { get; set; } = new();
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 }

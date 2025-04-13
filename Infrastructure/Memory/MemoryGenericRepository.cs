@@ -40,4 +40,8 @@ public class MemoryGenericRepository<T> : IGenericRepository<T> where T : BaseId
     {
         return _repo.Remove(id);
     }
+
+    public void SaveChanges()
+    {
+    }
 }
