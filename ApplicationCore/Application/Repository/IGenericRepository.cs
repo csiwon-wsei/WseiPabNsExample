@@ -13,5 +13,7 @@ public interface IGenericRepository<T> where T : BaseIdentity
     T Update(T entity);
     
     bool DeleteById(Guid id);
+    
+    void SaveChanges();
 
 }

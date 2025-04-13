@@ -4,15 +4,17 @@ using ApplicationCore.Domain.Models;
 
 namespace ApplicationCore.Application.Services;
 
-public class MovieService
+public class MovieService: IMovieService
 {
     private IGenericRepository<Movie> _movies;
     private IGenericRepository<User> _users;
+    private IGenericRepository<Review> _reviews;
 
-    public MovieService(IGenericRepository<User> users, IGenericRepository<Movie> movies)
+    public MovieService(IGenericRepository<User> users, IGenericRepository<Movie> movies, IGenericRepository<Review> reviews)
     {
         _users = users;
         _movies = movies;
+        _reviews = reviews;
     }
 
     public IEnumerable<Movie> GetMovies()
@@ -44,8 +46,10 @@ public class MovieService
         {
             throw new UserNotFoundException($"User not found with id: {review.UserId}!");
         }
+
+        _reviews.Add(review);
         movie.Reviews.Add(review);
         _movies.Update(movie);
-        return review;
+        _movies.SaveChanges();        return review;
     }
 }

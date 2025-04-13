@@ -2,7 +2,9 @@ using ApplicationCore.Application.Repository;
 using ApplicationCore.Application.Services;
 using ApplicationCore.Domain.Models;
 using FluentValidation;
+using Infrastructure.EF;
 using Infrastructure.Memory;
+using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using WebApi;
 using WebApi.Handlers;
@@ -16,7 +18,7 @@ builder.Services.AddControllers(o =>
         o.ReturnHttpNotAcceptable = true; 
         o.RespectBrowserAcceptHeader = true;      
     })
-    .AddXmlSerializerFormatters()
+    //.AddXmlSerializerFormatters()
     .AddNewtonsoftJson();
 // FluentValidation
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
@@ -25,9 +27,17 @@ builder.Services.AddProblemDetails();
 // Automapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); 
 builder.Services.AddOpenApi();
-builder.Services.AddSingleton<IGenericRepository<Movie>, MemoryGenericRepository<Movie>>();  
-builder.Services.AddSingleton<IGenericRepository<User>, MemoryGenericRepository<User>>();
-builder.Services.AddSingleton<MovieService>();
+builder.Services.AddDbContext<AppDbContext>(o =>
+{
+    o.UseSqlite(builder.Configuration["Connections:SqliteConnection"]);
+});
+
+builder.Services.AddTransient<IGenericRepository<Movie>, EfMovieRepository>();
+builder.Services.AddTransient<IGenericRepository<Review>, EfReviewRepository>();
+builder.Services.AddTransient<IGenericRepository<User>, EfUserRepository>();
+
+builder.Services.AddTransient<IMovieService, EfMovieService>();
+
 var app = builder.Build();
 app.UseExceptionHandler();
 // Configure the HTTP request pipeline.
